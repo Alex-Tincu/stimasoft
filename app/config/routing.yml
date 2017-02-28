@@ -1,3 +1,23 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+monitor_check_for_changes:
+    path:      /monitor/checkforchanges
+    defaults:  { _controller: AppBundle:Monitor:checkforchanges }
+
+user_index:
+    path:      /user
+    defaults:  { _controller: AppBundle:User:index }
+
+user_list_resources:
+    path:      /user/list_resources
+    defaults:  { _controller: AppBundle:User:listResources }
+
+user_edit_resource:
+    path:      /user/edit_resource/{resourceId}
+    defaults:  { _controller: AppBundle:User:editResource }
+
+user_view_resource_history:
+    path:      /user/view_resource_history/{resourceId}
+    defaults:  { _controller: AppBundle:User:viewResourceHistory }
