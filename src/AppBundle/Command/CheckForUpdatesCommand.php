@@ -1,23 +1,37 @@
 <?php
+// src/AppBundle/Command/CheckForUpdatesCommand.php
+namespace AppBundle\Command;
 
-namespace AppBundle\Controller;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 use AppBundle\Entity\ResourceHistory;
 use AppBundle\Repository\ResourceHistoryRepository;
 use PHPHtmlParser\Dom;
 
-class MonitorController extends Controller
+class CheckForUpdatesCommand extends ContainerAwareCommand
 {
-    /**
-     * @Route("Monitor/checkforchanges")
-     */
-    public function checkForChangesAction()
+    protected function configure()
     {
-        $ResourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
+        // the name of the command (the part after "bin/console")
+        $this->setName('app:check-for-updates');
+
+        // the short description shown while running "php bin/console list"
+        $this->setDescription('Parse urls and record changes.');
+
+        // the full command description shown when running the command with
+        // the "--help" option
+        $this->setHelp('Parse urls and record changes.');
+        ;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $doctrine = $this->getContainer()->get('doctrine');
+        $ResourceRepository = $doctrine->getRepository('AppBundle:Resource');
         $resources = $ResourceRepository->getAll();
         //$ResourceHistoryRepository = $this->getDoctrine()->getRepository('AppBundle:ResourceHistory');
 
@@ -25,6 +39,8 @@ class MonitorController extends Controller
         $dom->setOptions([
             'strict' => false, // Set a global option to enable strict html parsing.
         ]);
+
+        $nrChanges = 0;
 
         foreach ($resources as $resource){
 
@@ -39,7 +55,7 @@ class MonitorController extends Controller
                 $resource->setLastHtml($html);
                 $resource->setCheckDate(new \DateTime());
 
-                $em = $this->getDoctrine()->getManager();
+                $em = $doctrine->getManager();
                 $em->persist($resource);
                 $em->flush();
 
@@ -50,15 +66,14 @@ class MonitorController extends Controller
                 $newValue->setDate(new \DateTime());
                 $newValue->setAlertSent(0);
 
-                $em = $this->getDoctrine()->getManager();
+                $em = $doctrine->getManager();
                 $em->persist($newValue);
                 $em->flush();
+
+                $nrChanges++;
             }
         }
 
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
+        $output->writeln("$nrChanges changes was made");
     }
-
 }
