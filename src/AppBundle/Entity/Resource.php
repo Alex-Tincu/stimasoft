@@ -31,18 +31,18 @@ class Resource
     private $cssRule;
 
     /**
-     * @ORM\Column(name="last_html", type="text")
+     * @ORM\Column(name="last_html", type="text", nullable=true)
      */
     private $lastHtml = null;
 
     /**
-     * @ORM\Column(name="check_date", type="datetime")
+     * @ORM\Column(name="check_date", type="datetime", nullable=true)
      */
     private $checkDate = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $user;
 

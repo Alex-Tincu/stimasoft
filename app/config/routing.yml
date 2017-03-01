@@ -18,6 +18,10 @@ user_edit_resource:
     path:      /user/edit_resource/{resourceId}
     defaults:  { _controller: AppBundle:User:editResource }
 
+user_delete_resource:
+    path:      /user/delete_resource/{resourceId}
+    defaults:  { _controller: AppBundle:User:deleteResource }
+
 user_view_resource_history:
     path:      /user/view_resource_history/{resourceId}
     defaults:  { _controller: AppBundle:User:viewResourceHistory }

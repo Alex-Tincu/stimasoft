@@ -93,5 +93,16 @@ class UserController extends Controller
         return $this->render('user/view_resource_history.html.twig', $data);
     }
 
+    /**
+     * @Route("user/delete_resource/{resourceId}", name="user_delete_resource", requirements={"resourceId": "\d+"})
+     */
+    public function deleteResourceAction($resourceId = 0)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find(1);
 
+        $resourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
+        $resourceRepository->deleteResource($resourceId, $user);
+
+        return $this->redirectToRoute('user_list_resources');
+    }
 }

@@ -33,7 +33,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Content</th>
+                    <!--<th>Content</th>-->
                     <th>URL</th>
                     <th>CSS Rule</th>
                     <th>Actions</th>
@@ -42,13 +42,15 @@
                 <tbody>
                 {% for resource in resources %}
                     <tr>
-                        <td style="max-width: 500px">{{ resource.lastHtml|raw }}</td>
+                        <!--<td style="max-width: 500px">{{ resource.lastHtml|raw }}</td>-->
                         <td class="col-xs-3">{{ resource.url }}</td>
                         <td class="col-xs-2">{{ resource.cssRule }}</td>
                         <td class="col-xs-2">
+                            <a href="/user/view_resource_history/{{ resource.id }}"><span class="glyphicon glyphicon-eye-open" ></span> View changes</a>
+                            &nbsp;
                             <a href="/user/edit_resource/{{ resource.id }}"><span class="glyphicon glyphicon-pencil" ></span> Edit</a>
                             &nbsp;
-                            <a href="/user/view_resource_history/{{ resource.id }}"><span class="glyphicon glyphicon-eye-open" ></span> View changes</a>
+                            <a href="/user/delete_resource/{{ resource.id }}" onclick="return confirm('Are you sure?')"><span class=" glyphicon glyphicon-trash" ></span> Delete</a>
                         </td>
                     </tr>
                 {% endfor %}

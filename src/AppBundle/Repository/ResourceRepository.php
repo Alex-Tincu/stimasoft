@@ -29,4 +29,20 @@ class ResourceRepository extends \Doctrine\ORM\EntityRepository
             )->setParameter('user', $user)
             ->getResult();
     }
+
+    public function deleteResource($resourceId, $user)
+    {
+        $resource = $this->getEntityManager()
+            ->createQuery('
+                    SELECT r
+                    FROM AppBundle:Resource r
+                    WHERE r.id = :resourceId 
+                    AND r.user = :user'
+            )->setParameter('user', $user)
+            ->setParameter('resourceId', $resourceId)
+            ->getSingleResult();
+
+        $this->getEntityManager()->remove($resource);
+        $this->getEntityManager()->flush();
+    }
 }
