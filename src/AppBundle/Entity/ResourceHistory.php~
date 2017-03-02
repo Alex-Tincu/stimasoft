@@ -29,6 +29,11 @@ class ResourceHistory
     private $html;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $oldHtml;
+
+    /**
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;

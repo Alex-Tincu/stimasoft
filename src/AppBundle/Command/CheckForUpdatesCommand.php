@@ -48,8 +48,9 @@ class CheckForUpdatesCommand extends ContainerAwareCommand
             $dom->loadFromUrl($resource->getUrl());
             $content = $dom->find($resource->getCssRule());
             $html = (!empty($content)) ? $content->innerHtml : '';
+            $oldHtml = $resource->getLastHtml();
 
-            if($html != $resource->getLastHtml()) {
+            if($html && $html != $oldHtml) {
 
                 // save actual content in resource table
                 $resource->setLastHtml($html);
@@ -59,10 +60,11 @@ class CheckForUpdatesCommand extends ContainerAwareCommand
                 $em->persist($resource);
                 $em->flush();
 
-                // save actual content in history
+                // save actual and old content in history table
                 $newValue = new resourceHistory();
                 $newValue->setResource($resource);
                 $newValue->setHtml($html);
+                $newValue->setOldHtml($oldHtml);
                 $newValue->setDate(new \DateTime());
                 $newValue->setAlertSent(0);
 

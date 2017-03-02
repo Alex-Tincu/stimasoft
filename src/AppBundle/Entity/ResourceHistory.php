@@ -29,6 +29,11 @@ class ResourceHistory
     private $html;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $oldHtml;
+
+    /**
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
@@ -143,5 +148,29 @@ class ResourceHistory
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * Set oldHtml
+     *
+     * @param string $oldHtml
+     *
+     * @return ResourceHistory
+     */
+    public function setOldHtml($oldHtml)
+    {
+        $this->oldHtml = $oldHtml;
+
+        return $this;
+    }
+
+    /**
+     * Get oldHtml
+     *
+     * @return string
+     */
+    public function getOldHtml()
+    {
+        return $this->oldHtml;
     }
 }
