@@ -1,64 +1,40 @@
 {% extends 'twitter_bootstrap.html.twig' %}
 
-{% block body %}
+{% block content %}
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href=";">Web monitoring</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse navbar-right">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/user/list_resources">Monitor</a></li>
-                    <li><a href=";">Alerts</a></li>
-                    <li><a href=";">Account</a></li>
-                </ul>
+    <h2 class="sub-header">My entries
 
-            </div><!--/.nav-collapse -->
-        </div>
-    </nav>
+        <a href="/user/edit_resource/0" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new</a>
 
-    <div class="container">
-
-        <h3>&nbsp;</h3>
-        <h3>&nbsp;</h3>
-
-        <h2 class="sub-header">My entries
-
-            <a href="/user/edit_resource/0" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new</a>
-
-        </h2>
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+    </h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <!--<th>Content</th>-->
+                <th>URL</th>
+                <th>CSS Rule</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for resource in resources %}
                 <tr>
-                    <!--<th>Content</th>-->
-                    <th>URL</th>
-                    <th>CSS Rule</th>
-                    <th>Actions</th>
+                    <!--<td style="max-width: 500px">{{ resource.lastHtml|raw }}</td>-->
+                    <td class="col-xs-3">{{ resource.url }}</td>
+                    <td class="col-xs-2">{{ resource.cssRule }}</td>
+                    <td class="col-xs-2">
+                        <a href="/user/view_resource_history/{{ resource.id }}"><span class="glyphicon glyphicon-eye-open" ></span> View changes</a>
+                        &nbsp;
+                        <a href="/user/edit_resource/{{ resource.id }}"><span class="glyphicon glyphicon-pencil" ></span> Edit</a>
+                        &nbsp;
+                        <a href="/user/delete_resource/{{ resource.id }}" onclick="return confirm('Are you sure?')"><span class=" glyphicon glyphicon-trash" ></span> Delete</a>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                {% for resource in resources %}
-                    <tr>
-                        <!--<td style="max-width: 500px">{{ resource.lastHtml|raw }}</td>-->
-                        <td class="col-xs-3">{{ resource.url }}</td>
-                        <td class="col-xs-2">{{ resource.cssRule }}</td>
-                        <td class="col-xs-2">
-                            <a href="/user/view_resource_history/{{ resource.id }}"><span class="glyphicon glyphicon-eye-open" ></span> View changes</a>
-                            &nbsp;
-                            <a href="/user/edit_resource/{{ resource.id }}"><span class="glyphicon glyphicon-pencil" ></span> Edit</a>
-                            &nbsp;
-                            <a href="/user/delete_resource/{{ resource.id }}" onclick="return confirm('Are you sure?')"><span class=" glyphicon glyphicon-trash" ></span> Delete</a>
-                        </td>
-                    </tr>
-                {% endfor %}
+            {% endfor %}
 
-                </tbody>
-            </table>
-        </div>
-
-    </div> <!-- /container -->
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

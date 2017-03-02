@@ -25,3 +25,6 @@ user_delete_resource:
 user_view_resource_history:
     path:      /user/view_resource_history/{resourceId}
     defaults:  { _controller: AppBundle:User:viewResourceHistory }
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

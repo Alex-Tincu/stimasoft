@@ -4,12 +4,14 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use AppBundle\Entity\Resource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+use FOS\UserBundle\Model\UserInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+
 
 class UserController extends Controller
 {
@@ -26,16 +28,14 @@ class UserController extends Controller
      */
     public function listResourcesAction()
     {
-
-        $data = [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ];
-
         $resourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
-        $userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
 
-        $data['user'] = $userRepository->find(1);
-        $data['resources'] = $resourceRepository->getUserResources($data['user']);
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
+        $data['resources'] = $resourceRepository->getUserResources($user);
 
         return $this->render('user/list_resources.html.twig', $data);
     }
@@ -45,7 +45,11 @@ class UserController extends Controller
      */
     public function editResourceAction($resourceId = 0, Request $request)
     {
-        $data = [];
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
         $resourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
         $data['resource'] = $resourceRepository->find($resourceId);
 
@@ -64,7 +68,6 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data['resource'] = $form->getData();
-            $user = $this->getDoctrine()->getRepository('AppBundle:User')->find(1);
             $data['resource']->setUser($user);
 
             $em = $this->getDoctrine()->getManager();
@@ -84,6 +87,11 @@ class UserController extends Controller
      */
     public function viewResourceHistoryAction($resourceId)
     {
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
+
         $resourceHistoryRepository = $this->getDoctrine()->getRepository('AppBundle:ResourceHistory');
         $resourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
 
@@ -98,7 +106,10 @@ class UserController extends Controller
      */
     public function deleteResourceAction($resourceId = 0)
     {
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find(1);
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }
 
         $resourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
         $resourceRepository->deleteResource($resourceId, $user);
