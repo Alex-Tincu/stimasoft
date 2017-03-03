@@ -34,4 +34,5 @@ class ResourceHistoryRepository extends \Doctrine\ORM\EntityRepository
             )->setParameter('resource', $resource)
             ->getResult();
     }
+
 }

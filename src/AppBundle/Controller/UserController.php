@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Resource;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use FOS\UserBundle\Model\UserInterface;
@@ -60,6 +61,7 @@ class UserController extends Controller
         $form = $this->createFormBuilder($data['resource'])
             ->add('url', TextType::class)
             ->add('css_rule', TextType::class)
+            ->add('alert_html', TextareaType::class)
             ->add('save', SubmitType::class, array('label' => 'Save'))
             ->getForm();
 

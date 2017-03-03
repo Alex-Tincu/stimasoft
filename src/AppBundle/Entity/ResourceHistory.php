@@ -29,19 +29,10 @@ class ResourceHistory
     private $html;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $oldHtml;
-
-    /**
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
-    /**
-     * @ORM\Column(name="alert_sent", type="boolean")
-     */
-    private $alertSent;
 
     /**
      * Get id
@@ -102,31 +93,6 @@ class ResourceHistory
     }
 
     /**
-     * Set alertSent
-     *
-     * @param boolean $alertSent
-     *
-     * @return ResourceHistory
-     */
-    public function setAlertSent($alertSent)
-    {
-        $this->alertSent = $alertSent;
-
-        return $this;
-    }
-
-    /**
-     * Get alertSent
-     *
-     * @return boolean
-     */
-    public function getAlertSent()
-    {
-        return $this->alertSent;
-    }
-
-
-    /**
      * Set resource
      *
      * @param \AppBundle\Entity\Resource $resource
@@ -148,29 +114,5 @@ class ResourceHistory
     public function getResource()
     {
         return $this->resource;
-    }
-
-    /**
-     * Set oldHtml
-     *
-     * @param string $oldHtml
-     *
-     * @return ResourceHistory
-     */
-    public function setOldHtml($oldHtml)
-    {
-        $this->oldHtml = $oldHtml;
-
-        return $this;
-    }
-
-    /**
-     * Get oldHtml
-     *
-     * @return string
-     */
-    public function getOldHtml()
-    {
-        return $this->oldHtml;
     }
 }

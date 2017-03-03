@@ -31,9 +31,24 @@ class Resource
     private $cssRule;
 
     /**
-     * @ORM\Column(name="last_html", type="text", nullable=true)
+     * @ORM\Column(name="new_html", type="text", nullable=true)
      */
-    private $lastHtml = null;
+    private $newHtml = null;
+
+    /**
+     * @ORM\Column(name="old_html", type="text", nullable=true)
+     */
+    private $oldHtml = null;
+
+    /**
+     * @ORM\Column(name="alert_html", type="text", nullable=true)
+     */
+    private $alertHtml = null;
+
+    /**
+     * @ORM\Column(name="alert_sent", type="boolean")
+     */
+    private $alertSent = 0;
 
     /**
      * @ORM\Column(name="check_date", type="datetime", nullable=true)
@@ -105,30 +120,6 @@ class Resource
     }
 
     /**
-     * Set lastHtml
-     *
-     * @param string $lastHtml
-     *
-     * @return Resource
-     */
-    public function setLastHtml($lastHtml)
-    {
-        $this->lastHtml = $lastHtml;
-
-        return $this;
-    }
-
-    /**
-     * Get lastHtml
-     *
-     * @return string
-     */
-    public function getLastHtml()
-    {
-        return $this->lastHtml;
-    }
-
-    /**
      * Set checkDate
      *
      * @param \DateTime $checkDate
@@ -174,5 +165,101 @@ class Resource
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set newHtml
+     *
+     * @param string $newHtml
+     *
+     * @return Resource
+     */
+    public function setNewHtml($newHtml)
+    {
+        $this->newHtml = $newHtml;
+
+        return $this;
+    }
+
+    /**
+     * Get newHtml
+     *
+     * @return string
+     */
+    public function getNewHtml()
+    {
+        return $this->newHtml;
+    }
+
+    /**
+     * Set oldHtml
+     *
+     * @param string $oldHtml
+     *
+     * @return Resource
+     */
+    public function setOldHtml($oldHtml)
+    {
+        $this->oldHtml = $oldHtml;
+
+        return $this;
+    }
+
+    /**
+     * Get oldHtml
+     *
+     * @return string
+     */
+    public function getOldHtml()
+    {
+        return $this->oldHtml;
+    }
+
+    /**
+     * Set alertSent
+     *
+     * @param boolean $alertSent
+     *
+     * @return Resource
+     */
+    public function setAlertSent($alertSent)
+    {
+        $this->alertSent = $alertSent;
+
+        return $this;
+    }
+
+    /**
+     * Get alertSent
+     *
+     * @return boolean
+     */
+    public function getAlertSent()
+    {
+        return $this->alertSent;
+    }
+
+    /**
+     * Set alertHtml
+     *
+     * @param string $alertHtml
+     *
+     * @return Resource
+     */
+    public function setAlertHtml($alertHtml)
+    {
+        $this->alertHtml = $alertHtml;
+
+        return $this;
+    }
+
+    /**
+     * Get alertHtml
+     *
+     * @return string
+     */
+    public function getAlertHtml()
+    {
+        return $this->alertHtml;
     }
 }

@@ -45,4 +45,12 @@ class ResourceRepository extends \Doctrine\ORM\EntityRepository
         $this->getEntityManager()->remove($resource);
         $this->getEntityManager()->flush();
     }
+
+    public function getResourcesChanged()
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT r FROM AppBundle:Resource r WHERE r.alertSent = 0'
+            )->getResult();
+    }
 }

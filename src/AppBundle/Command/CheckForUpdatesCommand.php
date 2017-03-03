@@ -47,26 +47,31 @@ class CheckForUpdatesCommand extends ContainerAwareCommand
             // get current content
             $dom->loadFromUrl($resource->getUrl());
             $content = $dom->find($resource->getCssRule());
-            $html = (!empty($content)) ? $content->innerHtml : '';
-            $oldHtml = $resource->getLastHtml();
+            $currentHtml = (!empty($content)) ? $content->innerHtml : '';
+            $newHtml = $resource->getNewHtml();
+            $oldHtml = $resource->getOldHtml();
 
-            if($html && $html != $oldHtml) {
+            if($currentHtml && $currentHtml != $newHtml) {
 
-                // save actual content in resource table
-                $resource->setLastHtml($html);
+                $resource->setNewHtml($currentHtml);
+                $resource->setOldHtml($newHtml);
                 $resource->setCheckDate(new \DateTime());
+                if(!$newHtml){
+                    // este prima parsare, nu trimit alerta
+                    $resource->setAlertSent(1);
+                }else{
+                    // resetez flagul pentru a alerta noua modificare
+                    $resource->setAlertSent(0);
+                }
 
                 $em = $doctrine->getManager();
                 $em->persist($resource);
                 $em->flush();
 
-                // save actual and old content in history table
                 $newValue = new resourceHistory();
                 $newValue->setResource($resource);
-                $newValue->setHtml($html);
-                $newValue->setOldHtml($oldHtml);
+                $newValue->setHtml($currentHtml);
                 $newValue->setDate(new \DateTime());
-                $newValue->setAlertSent(0);
 
                 $em = $doctrine->getManager();
                 $em->persist($newValue);
