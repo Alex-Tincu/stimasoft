@@ -50,7 +50,9 @@ class ResourceRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT r FROM AppBundle:Resource r WHERE r.alertSent = 0'
+                'SELECT r
+                FROM AppBundle:Resource r
+                WHERE r.alertSent = 0'
             )->getResult();
     }
 }

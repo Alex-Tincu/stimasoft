@@ -14,15 +14,12 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-//        $user = $this->getUser();
-//        if (!is_object($user) || !$user instanceof UserInterface) {
-//            throw new AccessDeniedException('This user does not have access to this section.');
-//        }else{
-//            return $this->redirectToRoute('user_list_resources');
-//        }
-
-        $resourceRepository = $this->getDoctrine()->getRepository('AppBundle:Resource');
-        $resources = $resourceRepository->getResourcesChanged();
+        $user = $this->getUser();
+        if (!is_object($user) || !$user instanceof UserInterface) {
+            throw new AccessDeniedException('This user does not have access to this section.');
+        }else{
+            return $this->redirectToRoute('user_list_resources');
+        }
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
